@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Monaral</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://st3.depositphotos.com/1001069/31940/i/450/depositphotos_319400434-stock-photo-music-headphones-pink-background-sound.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-gap: 20px;
+            background-color: rgba(255, 255, 255, 0.7); /* Add a semi-transparent white background to improve readability */
+            border-radius: 10px; /* Add some border radius to soften the edges */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+        }
+
+        /* Product Styles */
+        .product {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .product-info p {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .product-info button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-info button:hover {
+            background-color: #555;
+        }
+
+        /* Cart Styles */
+        .cart {
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 300px;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart.show {
+            display: block;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .cart-header button {
+            background-color: transparent;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .cart-items {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item img {
+            max-width: 100px; /* Adjust the max-width here */
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .cart-item .product-info {
+            flex: 1;
+        }
+
+        .cart-item .product-info h4 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .cart-item .product-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .cart-item .product-counter {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .cart-item button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 1.1em;
+        }
+
+        .cart-total {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .cart-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cart-buttons button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .cart-buttons button:hover {
+            background-color: #555;
+        }
+
+        .toggle-cart-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 2em;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-counter {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Shop</h1>
+    </header>
+    <div class="container">
+        <div class="product" onclick="location.href='product1.html';">
+            <img src="https://m.media-amazon.com/images/I/61bSV2qYGsL._AC_SX679_.jpg" alt="Bayrol Blender">
+            <div class="product-info">
+                <h3>Bayrol Blender</h3>
+                <p>Blender With Grinder and Grater, 1.5L, 450W, White.</p>
+                <p>Price: 2150 EGP</p>
+                <button onclick="addToCart('Bayrol Blender', 'https://m.media-amazon.com/images/I/61bSV2qYGsL._AC_SX679_.jpg', 2150, event)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Duplicate the product and change details -->
+        <div class="product" onclick="location.href='product2.html';">
+            <img class="product-image" src="https://m.media-amazon.com/images/I/71pDSpiUsqL._AC_SY879_.jpg" alt="Bayrol Chopper" style="max-height: 415px; width: 230px;">
+            <div class="product-info">
+                <h3>Bayrol Chopper</h3>
+                <p>Chopper 400W Electric Food Chopper with 500ml Bowl, Dual Speed, Stainless Steel Quad Blade, Rubber Lid, Ice Crush Function CHP40.000BK Black - International Warranty.</p>
+                <p>Price: 2399 EGP</p>
+                <button onclick="addToCart('Bayrol Chopper', 'https://m.media-amazon.com/images/I/71pDSpiUsqL._AC_SY879_.jpg', 2399, event)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Remove this product div for product 2 -->
+        <!-- Add more product sections as needed -->
+    </div>
+
+    <!-- Shopping Cart -->
+    <div class="cart" id="cart">
+        <div class="cart-header">
+            <h2>Shopping Cart</h2>
+            <button onclick="toggleCart()">Close</button>
+        </div>
+        <ul class="cart-items" id="cart-items"></ul>
+        <div class="cart-total" id="cart-total">Total: 0 EGP</div>
+        <div class="cart-buttons">
+            <button onclick="clearCart()">Clear Cart</button>
+            <button onclick="location.href='checkout.html'">Checkout</button> <!-- Updated this line -->
+        </div>
+    </div>
+
+    <!-- Toggle Cart Button -->
+    <button class="toggle-cart-button" onclick="toggleCart()">
+        🛒
+        <span id="cart-counter">0</span>
+    </button>
+
+    <script>
+        function addToCart(productName, imageUrl, price, event) {
+            event.stopPropagation(); // Prevent click event from bubbling up to parent elements
+            var cartItems = document.getElementsByClassName("cart-item");
+            var found = false;
+
+            // Check if the product already exists in the cart
+            for (var i = 0; i < cartItems.length; i++) {
+                var name = cartItems[i].getElementsByTagName("h4")[0].textContent;
+                if (name === productName) {
+                    var quantityElement = cartItems[i].getElementsByClassName("product-counter")[0];
+                    var quantity = parseInt(quantityElement.textContent);
+                    quantity++;
+                    quantityElement.textContent = quantity;
+                    found = true;
+                    break;
+                }
+            }
+
+            // If the product doesn't exist, add it to the cart
+            if (!found) {
+                var cartItem = document.createElement("li");
+                cartItem.classList.add("cart-item");
+                cartItem.innerHTML = `
+                    <div class="product-info">
+                        <img src="${imageUrl}" alt="${productName}">
+                        <h4>${productName}</h4>
+                        <p>${price} EGP</p>
+                    </div>
+                    <span class="product-counter">1</span>
+                    <button onclick="removeFromCart(this)">Remove</button>
+                `;
+                document.getElementById("cart-items").appendChild(cartItem);
+            }
+
+            updateTotal(price);
+            updateCartCounter();
+        }
+
+        function removeFromCart(button) {
+            var item = button.parentNode;
+            var price = parseFloat(item.getElementsByClassName("product-info")[0].getElementsByTagName("p")[0].textContent);
+            var quantity = parseInt(item.getElementsByClassName("product-counter")[0].textContent);
+            if (quantity > 1) {
+                quantity--;
+                item.getElementsByClassName("product-counter")[0].textContent = quantity;
+            } else {
+                item.parentNode.removeChild(item);
+            }
+            updateTotal(-price);
+            updateCartCounter();
+        }
+
+        function updateTotal(price) {
+            var cartTotal = document.getElementById("cart-total");
+            var currentTotal = parseFloat(cartTotal.textContent.split(' ')[1]);
+            var newTotal = currentTotal + price;
+            cartTotal.textContent = "Total: " + newTotal.toFixed(2) + " EGP";
+        }
+
+        function clearCart() {
+            document.getElementById("cart-items").innerHTML = "";
+            document.getElementById("cart-total").textContent = "Total: 0 EGP";
+            toggleCart();
+            updateCartCounter();
+        }
+
+        function checkout() {
+            var total = parseFloat(document.getElementById("cart-total").textContent.split(' ')[1]);
+            if (total === 0) {
+                alert("Your cart is empty!");
+            } else {
+                alert("Checkout successful! Total amount: " + total.toFixed(2) + " EGP");
+                clearCart();
+            }
+        }
+
+        function toggleCart() {
+            document.getElementById("cart").classList.toggle("show");
+        }
+
+        function updateCartCounter() {
+            var itemCount = 0;
+            var cartItems = document.getElementsByClassName("cart-item");
+            for (var i = 0; i < cartItems.length; i++) {
+                itemCount += parseInt(cartItems[i].getElementsByClassName("product-counter")[0].textContent);
+            }
+            document.getElementById("cart-counter").textContent = itemCount;
+        }
+    </script>
+</body>
+</html>

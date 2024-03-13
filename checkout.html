@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Monaral</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .cart-item img {
+            max-width: 100px;
+            margin-right: 20px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+        }
+
+        .cart-total {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Checkout</h2>
+        <div id="checkout-items"></div>
+        <div class="cart-total" id="cart-total">Total: 0 EGP</div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var cartItems = JSON.parse(localStorage.getItem("cartItems"));
+            var total = parseFloat(localStorage.getItem("cartTotal"));
+
+            var checkoutItemsContainer = document.getElementById("checkout-items");
+            var cartTotal = document.getElementById("cart-total");
+
+            if (!cartItems || !total || cartItems.length === 0) {
+                checkoutItemsContainer.textContent = "Your cart is empty!";
+                cartTotal.style.display = "none"; // Hide total if cart is empty
+            } else {
+                cartItems.forEach(function (item) {
+                    var cartItem = document.createElement("div");
+                    cartItem.classList.add("cart-item");
+                    cartItem.innerHTML = `
+                        <img src="${item.imageUrl}" alt="${item.productName}">
+                        <div class="product-info">
+                            <h3>${item.productName}</h3>
+                            <p>${item.price} EGP</p>
+                        </div>
+                    `;
+                    checkoutItemsContainer.appendChild(cartItem);
+                });
+
+                cartTotal.textContent = "Total: " + total.toFixed(2) + " EGP";
+            }
+        });
+    </script>
+</body>
+</html>

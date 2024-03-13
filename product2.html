@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayrol chopper - Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .product-details {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .product-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-height: 300px; /* Added to limit the height of the image */
+        }
+
+        .image-navigation {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .image-navigation button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 50%;
+            outline: none;
+        }
+
+        .image-navigation button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .image-navigation button:focus {
+            outline: none;
+        }
+
+        .image-navigation button.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .back-to-shop {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-to-shop a {
+            text-decoration: none;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .back-to-shop a:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bayrol Chopper - Details</h1>
+    </header>
+    <div class="product-details">
+        <img src="https://m.media-amazon.com/images/I/71pDSpiUsqL._AC_SY879_.jpg" alt="Bayrol Chopper">
+        <div class="image-navigation">
+            <button id="prevButton" onclick="prevImage()" class="disabled">←</button>
+            <button id="nextButton" onclick="nextImage()">→</button>
+        </div>
+        <h2>Bayrol Chopper</h2>
+        <p>Chopper 400W Electric Food Chopper with 500ml Bowl, Dual Speed, Stainless Steel Quad Blade, Rubber Lid, Ice Crush Function CHP40.000BK Black - International Warranty.</p>
+        <p>Price: 2399 EGP</p>
+        <!-- Additional images and information -->
+    </div>
+    <div class="back-to-shop">
+        <a href="shop.html">Go Back to Shop</a>
+    </div>
+
+    <script>
+        const images = [
+            "https://m.media-amazon.com/images/I/61JfXHmAOlL._AC_SX679_.jpg",
+            "https://m.media-amazon.com/images/I/71lGtIJVNLL._AC_SX679_.jpg", // Add URL of the second image
+            "https://m.media-amazon.com/images/I/61wJbBY7V0L._AC_SX679_.jpg"   // Add URL of the third image
+        ];
+        let currentImageIndex = 0;
+
+        function updateImage() {
+            const img = document.querySelector('.product-details img');
+            img.src = images[currentImageIndex];
+        }
+
+        function prevImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateImage();
+            }
+            updateButtonStates();
+        }
+
+        function nextImage() {
+            if (currentImageIndex < images.length - 1) {
+                currentImageIndex++;
+                updateImage();
+            }
+            updateButtonStates();
+        }
+
+        function updateButtonStates() {
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+
+            prevButton.classList.toggle('disabled', currentImageIndex === 0);
+            nextButton.classList.toggle('disabled', currentImageIndex === images.length - 1);
+        }
+    </script>
+</body>
+</html>
