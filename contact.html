@@ -76,11 +76,73 @@
             <p>Feel free to contact us using the information below:</p>
             <p>Email: monaralstore@gmail.com</p>
             <p>Phone: +20 (01112524272)</p>
-            <p>Address: Only deleveries</p>
+            <p>Address: Only deliveries</p>
+        </section>
+        <section id="message">
+            <h2>Send us a Message</h2>
+            <form id="messageForm">
+                <textarea id="userMessage" placeholder="Type your message here"></textarea><br>
+                <input type="submit" value="Send">
+            </form>
+        </section>
+        <section id="sentMessages">
+            <h2>Sent Messages</h2>
+            <ul id="messageList"></ul>
         </section>
     </div>
     <footer>
         <p>&copy; 2024 Monaral. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var messageForm = document.getElementById("messageForm");
+            var userMessageInput = document.getElementById("userMessage");
+            var messageList = document.getElementById("messageList");
+
+            messageForm.addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                var userMessage = userMessageInput.value.trim();
+                if (userMessage !== "") {
+                    var listItem = document.createElement("li");
+                    listItem.textContent = userMessage;
+                    messageList.appendChild(listItem);
+
+                    // Clear the input field after sending the message
+                    userMessageInput.value = "";
+
+                    // Send the message to another website
+                    sendMessage(userMessage);
+                } else {
+                    alert("Please enter a message.");
+                }
+            });
+
+            // Function to send message to another website
+            function sendMessage(message) {
+                const url = 'https://your-receiving-website.com/receive-message';
+                const data = { message: message };
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Message sent successfully!');
+                    } else {
+                        console.error('Failed to send message:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
