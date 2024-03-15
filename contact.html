@@ -121,7 +121,7 @@
 
             // Function to send message to another website
             function sendMessage(message) {
-                const url = 'https://frostances.github.io/receivingmessages/';
+                const url = 'http://localhost:3001/receive-message'; // Update the URL with the correct port
                 const data = { message: message };
 
                 fetch(url, {
